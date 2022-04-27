@@ -93,6 +93,10 @@ function App() {
 		setFormPassword(e.target.value);
 	};
 
+	const handleLogoutButton = () => {
+		setUserIsLoggedIn(false);
+	}
+
 	return (
 		<div className="App">
 			<h1>Job Application Process</h1>
@@ -100,7 +104,10 @@ function App() {
 			{userIsLoggedIn ? (
 				<>
 					<div>There are {techItems.length} tech items.</div>
-					<button onClick={handleToggleView}>Toggle View</button>
+					<div className="buttonArea">
+						<button onClick={handleToggleView}>Toggle View</button>
+						<button onClick={handleLogoutButton}>Logout</button>
+					</div>
 					{displayKind === 'full' ? (
 						<JobsFull
 							jobs={jobs}
