@@ -16,6 +16,7 @@ function App() {
 	const [displayKind, setDisplayKind] = useState('');
 	const [jobs, setJobs] = useState([]);
 	const [techItems, setTechItems] = useState([]);
+	const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
 
 	const saveToLocalStorage = () => {
 		if (displayKind !== '') {
@@ -44,7 +45,7 @@ function App() {
 			const data = await response.json();
 			setTechItems(data);
 		})();
-	}
+	};
 
 	useEffect(() => {
 		loadLocalStorage();
@@ -73,12 +74,38 @@ function App() {
 	return (
 		<div className="App">
 			<h1>Job Application Process</h1>
-			<div>There are {techItems.length} tech items.</div>
-			<button onClick={handleToggleView}>Toggle View</button>
-			{displayKind === 'full' ? (
-				<JobsFull jobs={jobs} handleStatusChange={handleStatusChange} techItems={techItems} />
+
+			{userIsLoggedIn ? (
+				<>
+					<div>There are {techItems.length} tech items.</div>
+					<button onClick={handleToggleView}>Toggle View</button>
+					{displayKind === 'full' ? (
+						<JobsFull
+							jobs={jobs}
+							handleStatusChange={handleStatusChange}
+							techItems={techItems}
+						/>
+					) : (
+						<JobsList jobs={jobs} />
+					)}
+				</>
 			) : (
-				<JobsList jobs={jobs} />
+				<form>
+					<fieldset>
+						<legend>Welcome</legend>
+						<div className="row">
+							<label htmlFor="login">Login</label>
+							<input autoFocus type="text" id="login" />
+						</div>
+						<div className="row">
+							<label htmlFor="password">Password</label>
+							<input type="password" id="password" />
+						</div>
+						<div className="buttonRow">
+							<button>Enter</button>
+						</div>
+					</fieldset>
+				</form>
 			)}
 		</div>
 	);
