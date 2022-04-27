@@ -29,7 +29,6 @@ function App() {
 
 	const loadLocalStorage = () => {
 		const jobAppState = JSON.parse(localStorage.getItem('jobAppState'));
-		console.log(jobAppState);
 		if (jobAppState === null) {
 			setDisplayKind('list');
 			setJobs(_jobs);

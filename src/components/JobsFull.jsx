@@ -1,18 +1,30 @@
 export const JobsFull = ({ jobs, handleStatusChange, techItems }) => {
-	const skillDefinitions = [
-		{
-			title: 'PHP',
-			description: 'a server-side language created in the 90s',
-		},
-		{
-			title: 'Go',
-			description: "Google's new low-level language",
-		},
-	];
-
 	const getSkillDescription = (skillTitle) => {
-		return 'ddd';
-	}
+		const techItem = techItems.find((m) => {
+			let title = m.title.trim();
+			switch (title) {
+				case 'HTML5':
+					title = 'HTML';
+					break;
+			}
+			if (title === skillTitle.trim()) {
+				return m.title;
+			}
+		});
+		if (techItem !== undefined) {
+			const parts = techItem.extras.split(';');
+			let description = '';
+			parts.forEach((part) => {
+				if (part.includes('$quick')) {
+					const ends = part.split('=');
+					description = ends[1];  
+				}
+			});
+			return description;
+		} else {
+			return null;
+		}
+	};
 
 	const getSkillDefinitions = (job) => {
 		const skillDefinitions = [];
@@ -53,7 +65,7 @@ export const JobsFull = ({ jobs, handleStatusChange, techItems }) => {
 						<ul className="skillDefinitions">
 							{getSkillDefinitions(job).map((sd, index) => {
 								return (
-									<li>
+									<li key={index}>
 										{sd.title} - {sd.description}
 									</li>
 								);
