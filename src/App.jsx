@@ -17,6 +17,8 @@ function App() {
 	const [jobs, setJobs] = useState([]);
 	const [techItems, setTechItems] = useState([]);
 	const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
+	const [formLogin, setFormLogin] = useState('');
+	const [formPassword, setFormPassword] = useState('');
 
 	const saveToLocalStorage = () => {
 		if (displayKind !== '') {
@@ -71,6 +73,19 @@ function App() {
 		setJobs([...jobs]);
 	};
 
+	const handleSubmitButton = (e) => {
+		e.preventDefault();
+		console.log(formLogin, formPassword);
+	}
+
+	const handleFormLogin = (e) => {
+		setFormLogin(e.target.value);
+	}
+
+	const handleFormPassword = (e) => {
+		setFormPassword(e.target.value);
+	}
+
 	return (
 		<div className="App">
 			<h1>Job Application Process</h1>
@@ -95,14 +110,14 @@ function App() {
 						<legend>Welcome</legend>
 						<div className="row">
 							<label htmlFor="login">Login</label>
-							<input autoFocus type="text" id="login" />
+							<input autoFocus value={formLogin} onChange={(e) => handleFormLogin(e)} type="text" id="login" />
 						</div>
 						<div className="row">
 							<label htmlFor="password">Password</label>
-							<input type="password" id="password" />
+								<input value={formPassword} onChange={(e) => handleFormPassword(e)} type="password" id="password" />
 						</div>
 						<div className="buttonRow">
-							<button>Enter</button>
+							<button onClick={(e) => handleSubmitButton(e)}>Enter</button>
 						</div>
 					</fieldset>
 				</form>
