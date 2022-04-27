@@ -19,6 +19,7 @@ function App() {
 	const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
 	const [formLogin, setFormLogin] = useState('');
 	const [formPassword, setFormPassword] = useState('');
+	const [messageOnForm, setMessageForm] = useState('');
 
 	const saveToLocalStorage = () => {
 		if (displayKind !== '') {
@@ -75,16 +76,20 @@ function App() {
 
 	const handleSubmitButton = (e) => {
 		e.preventDefault();
-		console.log(formLogin, formPassword);
-	}
+		if (formPassword === '342') {
+			setUserIsLoggedIn(true);
+		} else {
+			setMessageForm('bad login');
+		}
+	};
 
 	const handleFormLogin = (e) => {
 		setFormLogin(e.target.value);
-	}
+	};
 
 	const handleFormPassword = (e) => {
 		setFormPassword(e.target.value);
-	}
+	};
 
 	return (
 		<div className="App">
@@ -108,16 +113,32 @@ function App() {
 				<form>
 					<fieldset>
 						<legend>Welcome</legend>
+						{messageOnForm !== '' && (
+							<div className="messageOnForm">{messageOnForm}</div>
+						)}
 						<div className="row">
 							<label htmlFor="login">Login</label>
-							<input autoFocus value={formLogin} onChange={(e) => handleFormLogin(e)} type="text" id="login" />
+							<input
+								autoFocus
+								value={formLogin}
+								onChange={(e) => handleFormLogin(e)}
+								type="text"
+								id="login"
+							/>
 						</div>
 						<div className="row">
 							<label htmlFor="password">Password</label>
-								<input value={formPassword} onChange={(e) => handleFormPassword(e)} type="password" id="password" />
+							<input
+								value={formPassword}
+								onChange={(e) => handleFormPassword(e)}
+								type="password"
+								id="password"
+							/>
 						</div>
 						<div className="buttonRow">
-							<button onClick={(e) => handleSubmitButton(e)}>Enter</button>
+							<button onClick={(e) => handleSubmitButton(e)}>
+								Enter
+							</button>
 						</div>
 					</fieldset>
 				</form>
