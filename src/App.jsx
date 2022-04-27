@@ -21,6 +21,7 @@ function App() {
 	const [formLogin, setFormLogin] = useState('');
 	const [formPassword, setFormPassword] = useState('');
 	const [messageOnForm, setMessageForm] = useState('');
+	const [userGroup, setUserGroup] = useState('');
 
 	const saveToLocalStorage = () => {
 		if (displayKind !== '') {
@@ -78,7 +79,20 @@ function App() {
 	const handleSubmitButton = (e) => {
 		e.preventDefault();
 		const hash = md5(formPassword);
-		if (hash === '8c6744c9d42ec2cb9e8885b54ff744d0') {
+
+		if (formLogin === 'me' && hash === '8c6744c9d42ec2cb9e8885b54ff744d0') {
+			setUserGroup('fullAccessMembers');
+			setUserIsLoggedIn(true);
+		} else {
+			setMessageForm('bad login');
+		}
+
+		if (
+			formLogin === 'guest' &&
+			hash === '7ce3284b743aefde80ffd9aec500e085'
+		) {
+			setUserGroup('guests');
+			setDisplayKind('list');
 			setUserIsLoggedIn(true);
 		} else {
 			setMessageForm('bad login');
@@ -96,26 +110,33 @@ function App() {
 	const handleLogoutButton = () => {
 		setFormLogin('');
 		setFormPassword('');
+		setUserGroup('');
 		setUserIsLoggedIn(false);
-	}
+	};
 
 	return (
 		<div className="App">
 			<h1>Job Application Process</h1>
-
 			{userIsLoggedIn ? (
 				<>
-					<div>There are {techItems.length} tech items.</div>
 					<div className="buttonArea">
-						<button onClick={handleToggleView}>Toggle View</button>
+						{userGroup === 'fullAccessMembers' && (
+							<button onClick={handleToggleView}>
+								Toggle View
+							</button>
+						)}
 						<button onClick={handleLogoutButton}>Logout</button>
 					</div>
 					{displayKind === 'full' ? (
-						<JobsFull
-							jobs={jobs}
-							handleStatusChange={handleStatusChange}
-							techItems={techItems}
-						/>
+						<>
+							{userGroup === 'fullAccessMembers' && (
+								<JobsFull
+									jobs={jobs}
+									handleStatusChange={handleStatusChange}
+									techItems={techItems}
+								/>
+							)}
+						</>
 					) : (
 						<JobsList jobs={jobs} />
 					)}
