@@ -3,6 +3,7 @@ import './App.scss';
 import _jobs from './data/jobs.json';
 import { JobsFull } from './components/JobsFull';
 import { JobsList } from './components/JobsList';
+import md5 from 'md5';
 
 _jobs.forEach((job) => {
 	job.status = 'accepted';
@@ -76,7 +77,8 @@ function App() {
 
 	const handleSubmitButton = (e) => {
 		e.preventDefault();
-		if (formPassword === '342') {
+		const hash = md5(formPassword);
+		if (hash === '8c6744c9d42ec2cb9e8885b54ff744d0') {
 			setUserIsLoggedIn(true);
 		} else {
 			setMessageForm('bad login');
