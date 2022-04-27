@@ -94,6 +94,8 @@ function App() {
 	};
 
 	const handleLogoutButton = () => {
+		setFormLogin('');
+		setFormPassword('');
 		setUserIsLoggedIn(false);
 	}
 
